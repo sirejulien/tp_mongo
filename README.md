@@ -48,12 +48,15 @@ src: https://docs.mongodb.com/manual/indexes/
 
 exemple:
 - Requête pour récupérer tous les clients masculins.
+
 ![requete sexe sans index](/Img_README/query_no_index.png)
 
 - Création de l'index sur le sexe des clients.
+
 ![creation index](/Img_README/crea_index.png)
 
 - Même requête avec index.
+
 ![requete sexe sans index](/Img_README/query_index.png)
 
 Dans le premier cas la requête nous renvoie 500 000 documents en 790ms alors que dans le deuxieme cas (avec l'index) la requête nous renvoie le même nombre de documents en 534ms, soit une amélioration de 33%.
