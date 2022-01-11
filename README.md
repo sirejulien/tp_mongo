@@ -16,4 +16,4 @@ Enfin Mongo DB étant un SGBD populaire il possède une documentation bien fourn
 
 ###Structure de la base de donnée
 
-![structure bdd](/img_README/struct_db.png)
+![structure bdd](/Img_README/struct_db.png)
