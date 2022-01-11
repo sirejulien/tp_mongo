@@ -2,27 +2,31 @@
 
 Mise en place d'une base de donnée Mongo DB dans le cadre d'une application de fidélisation client pour une chaine de restaurant.
 
-##Proposition Commerciale
+## Proposition Commerciale
 
 Mise en place d'un système de compte client pour permettre l'historisation des commandes par clients en vue d'un marketing ciblé.
 On pourra inciter les clients à se créer un compte client en offrant des promotions par mail pour les clients inscrits.
 Passé un certain nombre de clients inscrits il sera possible de faire des statistiques permettant de ciblé différents types de clientèle afin d'affiner le marketing pour fidéliser un type de clientèle ou attirer un nouveau type de clientèle. 
 
-##Choix de Mongo DB
+## Choix de Mongo DB
 
 Mongo DB ne possédant pas de schéma fixe, contrairement aux SGBD basés sur le SQL, il possèdent l'avantage de pouvoir facilement être modifiable. On pourra donc aisément ajouté de nouveaux champs à nos collections si par exemple le marketing désire conserver une nouvelle donnée sur les clients.
 
 La notion d'Objet et de Sous-Objet propre à Mongo DB est également un avantage par rapport aux SGBD relationnels classiques puisqu'elle élimine le besoin en table de jointure, par exemple les adresses divisées en "Libellé/Ville/CodePostal". Cela simplifie grandement la structure de la base de données.
 
+Mongo DB peut également stocker un grand nombre de données différentes: chaîne de caractères, nombre entier ou décimal, booléen, date et heure et des script JS. src: https://docs.mongodb.com/manual/reference/bson-types/
+
+Pour les fichiers inférieurs à 16Mo il est possible de les stocker en base 64 mais pour les autres on peut utiliser GridFS.
+GridFS est un processus permettant de stocker les fichiers en les découpant en morceaux (*chunks*) de 4Mo et en les stockant dans une collection GridFS dédiée à cela. src: https://docs.mongodb.com/manual/core/gridfs/
+
 Enfin Mongo DB étant un SGBD populaire il possède une documentation bien fournie et une communauté en ligne active permettant d'obtenir assez rapidement de l'aide sur les éventuels problèmes techniques rencontrés.
 
-avantage des différents type de données stockable
 
 avantage des outils mongo db (mongo chart)
 
 alternative à mongo
 
-##Structure de la base de donnée
+## Structure de la base de donnée
 
 ![structure bdd](/Img_README/struct_db.png)
 
@@ -36,9 +40,9 @@ La collection commande aurait pu être un objet au sein de la collection CLIENTS
 
 Une amélioration possible serait de créer une collection REDUCTION listant les détails des différentes promotions proposées dans nos enseignes. Cela permettrait de faire des statistiques sur le succès de ces différentes promotions afin de quantifier l'impact de telle ou telle campagne publicitaire.
 
-##Partie Technique
+## Partie Technique
 
-###Index
+### Index
 
 Les index de Mongo DB sont une structures de données dont la fonction est stocker les différentes valeurs d'un champ selon un tri croissant ou décroissant et d'y joindre la liste des documents correspondants à cette valeur.
 
@@ -61,8 +65,16 @@ exemple:
 
 Dans le premier cas la requête nous renvoie 500 000 documents en 790ms alors que dans le deuxieme cas (avec l'index) la requête nous renvoie le même nombre de documents en 534ms, soit une amélioration de 33%.
 
+Dans notre application nous pourrons mettre dans un premier temps des index sur les champs suivant:
+-CLIENTS: sexe, date de naissance.
+-COMMANDES: restaurant_id, client_id, date, produit.
+
+Ces index accélererons le processus pour les statistiques les plus importantes d'un point de vue marketing (tri des clients par sexe et tranche d'age, statistique de consommation de ces groupes, popularité des produits, différence de fréquentation des restaurants).
+
+Cet exemple nous permet également d'aborder la fonction **explain** de Mongo DB. Cette fonction permet de renvoyer des informations concernant le plan d'exécution d'une requête ou sur l'exécution en elle-même de la requête. Cette fonction aide grandement pour optimiser la base. Dans notre cas elle permet de justifier l'utilité des index pour notre base.
+
 utilité et utilisation des fonctions update delete read
 
-fonctions explain, pretty
+fonctions pretty
 
 utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart
