@@ -11,8 +11,10 @@ Passé un certain nombre de clients inscrits il sera possible de faire des stati
 ##Choix de Mongo DB
 
 Mongo DB ne possédant pas de schéma fixe, contrairement aux SGBD basés sur le SQL, il possèdent l'avantage de pouvoir facilement être modifiable. On pourra donc aisément ajouté de nouveaux champs à nos collections si par exemple le marketing désire conserver une nouvelle donnée sur les clients.
-La notion d'Objet et de Sous-Objet propre à Mongo DB est également un avantage par rapport aux SGBD relationnels classiques puisqu'elle élimine le besoin en table de jointure. Cela simplifie grandement la structure de la base de données.
+La notion d'Objet et de Sous-Objet propre à Mongo DB est également un avantage par rapport aux SGBD relationnels classiques puisqu'elle élimine le besoin en table de jointure, par exemple les adresses divisées en "Libellé/Ville/CodePostal". Cela simplifie grandement la structure de la base de données.
 Enfin Mongo DB étant un SGBD populaire il possède une documentation bien fournie et une communauté en ligne active permettant d'obtenir assez rapidement de l'aide sur les éventuels problèmes techniques rencontrés.
+
+avantage des différents type de données stockable
 
 ##Structure de la base de donnée
 
@@ -27,3 +29,13 @@ Comme nous pouvons le voir nous partons sur une base de données composées de 4
 La collection commande aurait pu être un objet au sein de la collection CLIENTS, voire de la collection RESTAURANTS, mais nous avons préféré choisir cette solution pour simplifier la structure de la base. De plus certaines statistiques ne dépendront pas des clients, par exemple: quels sont les restaurants les plus actifs le week-end? ou quels sont les produits les plus commandés le soir?
 
 Une amélioration possible serait de créer une collection REDUCTION listant les détails des différentes promotions proposées dans nos enseignes. Cela permettrait de faire des statistiques sur le succès de ces différentes promotions afin de quantifier l'impact de telle ou telle campagne publicitaire.
+
+##Partie Technique
+
+choix des index
+
+utilité et utilisation des fonctions update delete read
+
+fonctions explain, pretty
+
+utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart
