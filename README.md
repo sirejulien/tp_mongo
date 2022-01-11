@@ -11,10 +11,16 @@ Passé un certain nombre de clients inscrits il sera possible de faire des stati
 ##Choix de Mongo DB
 
 Mongo DB ne possédant pas de schéma fixe, contrairement aux SGBD basés sur le SQL, il possèdent l'avantage de pouvoir facilement être modifiable. On pourra donc aisément ajouté de nouveaux champs à nos collections si par exemple le marketing désire conserver une nouvelle donnée sur les clients.
+
 La notion d'Objet et de Sous-Objet propre à Mongo DB est également un avantage par rapport aux SGBD relationnels classiques puisqu'elle élimine le besoin en table de jointure, par exemple les adresses divisées en "Libellé/Ville/CodePostal". Cela simplifie grandement la structure de la base de données.
+
 Enfin Mongo DB étant un SGBD populaire il possède une documentation bien fournie et une communauté en ligne active permettant d'obtenir assez rapidement de l'aide sur les éventuels problèmes techniques rencontrés.
 
 avantage des différents type de données stockable
+
+avantage des outils mongo db (mongo chart)
+
+alternative à mongo
 
 ##Structure de la base de donnée
 
@@ -32,7 +38,25 @@ Une amélioration possible serait de créer une collection REDUCTION listant les
 
 ##Partie Technique
 
-choix des index
+###Index
+
+Les index de Mongo DB sont une structures de données dont la fonction est stocker les différentes valeurs d'un champ selon un tri croissant ou décroissant et d'y joindre la liste des documents correspondants à cette valeur.
+
+Cela permet d'accélérer grandement le processus de requête sur ce champs car Mongo DB ira lire son index afin de récupérer les documents correspondant à la requête plutot que de scanner l'intégralité des documents pour trouver quels documents possèdent la valeur cherchée sur ce champ.
+
+src: https://docs.mongodb.com/manual/indexes/
+
+exemple:
+- Requête pour récupérer tous les clients masculins.
+![requete sexe sans index](/Img_README/query_no_index.png)
+
+- Création de l'index sur le sexe des clients.
+![creation index](/Img_README/crea_index.png)
+
+- Même requête avec index.
+![requete sexe sans index](/Img_README/query_index.png)
+
+Dans le premier cas la requête nous renvoie 500 000 documents en 790ms alors que dans le deuxieme cas (avec l'index) la requête nous renvoie le même nombre de documents en 534ms, soit une amélioration de 33%.
 
 utilité et utilisation des fonctions update delete read
 
