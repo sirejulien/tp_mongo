@@ -12,7 +12,12 @@ Passé un certain nombre de clients inscrits il sera possible de faire des stati
 
 Mongo DB ne possédant pas de schéma fixe, contrairement aux SGBD basés sur le SQL, il possèdent l'avantage de pouvoir facilement être modifiable. On pourra donc aisément ajouté de nouveaux champs à nos collections si par exemple le marketing désire conserver une nouvelle donnée sur les clients.
 
-La notion d'Objet et de Sous-Objet propre à Mongo DB est également un avantage par rapport aux SGBD relationnels classiques puisqu'elle élimine le besoin en table de jointure, par exemple les adresses divisées en "Libellé/Ville/CodePostal". Cela simplifie grandement la structure de la base de données.
+La notion d'Objet et de Sous-Objet propre à Mongo DB est également un avantage par rapport aux SGBD relationnels classiques puisqu'elle élimine le besoin en table de jointure, par exemple les adresses divisées en "Libellé/Ville/CodePostal". Cela simplifie grandement la structure de la base de données et donc aussi les requête et leur efficacité.
+![exemple document client](/Img_README/client.png)
+Comme nous pouvons le voir l'exemple de document possède un objet *Adresse* divisé en Sous-Objets pour stocker les différents champs de l'adresse.
+Une application pertinente des objets Mongo dans notre cas serai de stocker les notes reçu par un restaurant.
+![exemple document restaurant](/Img_README/ex_restau.png)
+Les notes sont stockées les unes après les autres au sein de l'objet *Grades*. Cela évite la création d'une collection GRADES avec une jointure nécessaire lors de la consultation des notes d'un restaurant.
 
 Mongo DB peut également stocker un grand nombre de données différentes: chaîne de caractères, nombre entier ou décimal, booléen, date et heure et des script JS. src: https://docs.mongodb.com/manual/reference/bson-types/
 
