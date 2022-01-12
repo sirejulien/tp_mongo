@@ -26,7 +26,6 @@ GridFS est un processus permettant de stocker les fichiers en les découpant en 
 
 Enfin Mongo DB étant un SGBD populaire il possède une documentation bien fournie et une communauté en ligne active permettant d'obtenir assez rapidement de l'aide sur les éventuels problèmes techniques rencontrés.
 
-
 avantage des outils mongo db (mongo chart)
 
 alternative à mongo
@@ -77,9 +76,30 @@ Dans notre application nous pourrons mettre dans un premier temps des index sur 
 Ces index accélererons le processus pour les statistiques les plus importantes d'un point de vue marketing (tri des clients par sexe et tranche d'age, statistique de consommation de ces groupes, popularité des produits, différence de fréquentation des restaurants).
 
 Cet exemple nous permet également d'aborder la fonction **explain** de Mongo DB. Cette fonction permet de renvoyer des informations concernant le plan d'exécution d'une requête ou sur l'exécution en elle-même de la requête. Cette fonction aide grandement pour optimiser la base. Dans notre cas elle permet de justifier l'utilité des index pour notre base.
+src: https://docs.mongodb.com/manual/reference/operator/meta/explain/
 
-utilité et utilisation des fonctions update delete read
+### Fonctions Update et Delete
 
-fonctions pretty
+- Update
+La fonction update() permet de modifier une collection.
+Elle est divisée en 2 fonctions updateOne() et updateMany() qui permettent respectivement de modifier un ou plusieurs documents avec une requête.
+exemple: ![requete find client](/Img_README/find_ronnica.png)
+On  peut voir que le champ libellé de l'adresse est vide.
+![requete update client](/Img_README/update_ronnica.png)
+Avec la fonction updateOne() on a mis à jour le champ libellé du document.
+
+On peut passer des options à la fonction si par exemple l'on veut faire de l'upsert (créé le document s'il n'existe pas).
+UpdateOne() met à jour le premier document correspondant aux critères de sélection alors que updateMany() va mettre à jour tous les documents correspondants aux critères.
+src:https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/ ; https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/
+
+-Delete
+La fonction delete() permet de supprimer des documents au sein d'une collection.
+Elle est également divisée en 2 fonctions deleteMany() et deleteOne().
+exemple: ![requete delete client](/Img_README/delete_ronnica.png)
+On voit que le document précédement modifié a été supprimé de la collection.
 
 utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart
+
+
+## Utilisation
+
