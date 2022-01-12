@@ -13,10 +13,14 @@ Passé un certain nombre de clients inscrits il sera possible de faire des stati
 Mongo DB ne possédant pas de schéma fixe, contrairement aux SGBD basés sur le SQL, il possèdent l'avantage de pouvoir facilement être modifiable. On pourra donc aisément ajouté de nouveaux champs à nos collections si par exemple le marketing désire conserver une nouvelle donnée sur les clients.
 
 La notion d'Objet et de Sous-Objet propre à Mongo DB est également un avantage par rapport aux SGBD relationnels classiques puisqu'elle élimine le besoin en table de jointure, par exemple les adresses divisées en "Libellé/Ville/CodePostal". Cela simplifie grandement la structure de la base de données et donc aussi les requête et leur efficacité.
+
 ![exemple document client](/Img_README/client.png)
+
 Comme nous pouvons le voir l'exemple de document possède un objet *Adresse* divisé en Sous-Objets pour stocker les différents champs de l'adresse.
 Une application pertinente des objets Mongo dans notre cas serai de stocker les notes reçu par un restaurant.
+
 ![exemple document restaurant](/Img_README/ex_restau.png)
+
 Les notes sont stockées les unes après les autres au sein de l'objet *Grades*. Cela évite la création d'une collection GRADES avec une jointure nécessaire lors de la consultation des notes d'un restaurant.
 
 Mongo DB peut également stocker un grand nombre de données différentes: chaîne de caractères, nombre entier ou décimal, booléen, date et heure et des script JS. src: https://docs.mongodb.com/manual/reference/bson-types/
@@ -83,19 +87,26 @@ src: https://docs.mongodb.com/manual/reference/operator/meta/explain/
 - Update
 La fonction update() permet de modifier une collection.
 Elle est divisée en 2 fonctions updateOne() et updateMany() qui permettent respectivement de modifier un ou plusieurs documents avec une requête.
-exemple: ![requete find client](/Img_README/find_ronnica.png)
+exemple: 
+
+![requete find client](/Img_README/find_ronnica.png)
+
 On  peut voir que le champ libellé de l'adresse est vide.
+
 ![requete update client](/Img_README/update_ronnica.png)
+
 Avec la fonction updateOne() on a mis à jour le champ libellé du document.
 
-On peut passer des options à la fonction si par exemple l'on veut faire de l'upsert (créé le document s'il n'existe pas).
+On peut passer des options à la fonction si par exemple l'on veut faire de l'upsert (créer le document s'il n'existe pas).
 UpdateOne() met à jour le premier document correspondant aux critères de sélection alors que updateMany() va mettre à jour tous les documents correspondants aux critères.
 src:https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/ ; https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/
 
 -Delete
 La fonction delete() permet de supprimer des documents au sein d'une collection.
 Elle est également divisée en 2 fonctions deleteMany() et deleteOne().
-exemple: ![requete delete client](/Img_README/delete_ronnica.png)
+exemple: 
+![requete delete client](/Img_README/delete_ronnica.png)
+
 On voit que le document précédement modifié a été supprimé de la collection.
 
 utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart
@@ -103,3 +114,10 @@ utilité requete géospatiale, discuter structure geoJson, illustré avec exempl
 
 ## Utilisation
 
+agrégations
+
+nombre de clients différents par restaurants
+nombre de commandes par restaurant par periode donnée
+produit les plus commandés par périodes
+divisions des clients en tranche d'age et sexe
+liste des restaurants dans un rayon par rapport à un client
