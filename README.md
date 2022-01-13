@@ -128,9 +128,6 @@ exemple:
 
 On voit que le document précédement modifié a été supprimé de la collection.
 
-utilité requete géospatiale, discuter structure geoJson, illustré avec exemple geochart
-
-
 ## Utilisation
 
 ### Requête Géospatiale
@@ -160,9 +157,15 @@ Cette requête permet de compter le nombre de clients au sein de ce groupe en co
 
 Cette requête récupère toutes les commandes liées à un restaurant par rapport à son *ObjectId* dans le *$match*.
 Par la suite elle groupe les commandes restantes par rapport à leur *CLIENT_ID* et renvoie le nombre de commande par *CLIENT_ID*.
-Cette requête permet donc d'identifier les clients les plus fidèles par restaurants.
+Cette requête permet donc d'identifier les clients les plus fidèles par restaurants. Cette informations peut être utilisée pour savoir quelle type de clientèle est la plus fidèles ou pour savoir quels sont les restaurants réussissant le mieux à fidèliser leur clientèle.
 
+Bien d'autres applications peuvent être faites des agrégations Mongo: quelles sont les produits les plus populaires au sein d'un groupe de client? quelle est la différence d'affluence des restaurants selon les jours de la semaine ou les périodes de l'année?...
 
-nombre de clients différents par restaurants
-nombre de commandes par restaurant par periode donnée
-produit les plus commandés par périodes
+De plus, grâce au *scale up* possible de Mongo DB il sera facilement possible de rajouter des données pour des statistiques différentes ou plus précises.
+
+## Conclusion
+
+Nous vous proposons donc une solution basée sur une base de données Mongo DB pour son évolutivité et pour sa simplicité de mise en place et d'utilisation, notamment grâce aux outils Mongo DB.
+De plus nous avons vu que les agrégations Mongo permettent de rechercher tous les statistiques pertinentes pour un marketing efficace.
+
+Ainsi une solution logiciel pertinentes serait de créer une application en 2 parties, une partie pour récupérer les informations (clients grâce à un compte fidélité et restaurants grâce à un outil d'administration de la chaîne d'enseigne) et une seconde partie permettant au service marketing d'obtenir toutes les informations qu'il désire pour mettre en place de campagnes publicitaires. Ce second outil peut également être un plus pour le management afin de voir l'impact de telle ou telle décision sur le profit d'un restaurant. 
