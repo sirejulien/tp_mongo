@@ -174,12 +174,12 @@ Ainsi une solution logiciel pertinentes serait de créer une application en 2 pa
 
 ### Exemples de requête
 
-Requête pour afficher tous les documents dans les restaurants de la collection
+- Requête pour afficher tous les documents dans les restaurants de la collection
 
 $match: {
     }
 
-Requête pour afficher les champs restaurant_id, name, borough et cuisine pour tous les documents de la collection restaurant.
+- Requête pour afficher les champs restaurant_id, name, borough et cuisine pour tous les documents de la collection restaurant.
 $project: {
         restaurant_id: 1,
         name: 1,
@@ -187,7 +187,7 @@ $project: {
         cuisine: 1,
     }
  
-Requête pour afficher les champs restaurant_id, name, borough et cuisine, mais exclure le champ \_id pour tous les documents de la collection restaurant. 
+- Requête pour afficher les champs restaurant_id, name, borough et cuisine, mais exclure le champ \_id pour tous les documents de la collection restaurant. 
 
 $project: {
         	restaurant_id: 1,
@@ -197,23 +197,23 @@ $project: {
 	\_id :0,
     }
  
-Requête pour afficher les champs restaurant_id, nom, arrondissement et code postal, mais excluez le champ \_id pour tous les documents de la collection restaurant.
+- Requête pour afficher les champs restaurant_id, nom, arrondissement et code postal, mais excluez le champ \_id pour tous les documents de la collection restaurant.
 
  $project: {
         restaurant_id: 1,
         name: 1,
         borough: 1,
         "address.zipcode": 1,
-        _id: 0,
+        \_id: 0,
     }
 
-Requête pour afficher tous les restaurants qui sont dans l'arrondissement du Bronx. 
+- Requête pour afficher tous les restaurants qui sont dans l'arrondissement du Bronx. 
  
  $match: {
         borough: "Bronx",
     }
 
-Requête pour afficher les 5 premiers restaurants qui se trouvent dans le quartier du Bronx.
+- Requête pour afficher les 5 premiers restaurants qui se trouvent dans le quartier du Bronx.
 
 [{
     $match: {
@@ -223,7 +223,7 @@ Requête pour afficher les 5 premiers restaurants qui se trouvent dans le quarti
     $limit: 5
 }]
  
-Requête pour afficher les 5 restaurants suivants après avoir sauté les 5 premiers qui sont dans le quartier du Bronx.
+- Requête pour afficher les 5 restaurants suivants après avoir sauté les 5 premiers qui sont dans le quartier du Bronx.
 
 [{
     $skip: 5
@@ -235,7 +235,7 @@ Requête pour afficher les 5 restaurants suivants après avoir sauté les 5 prem
     $limit: 5
 }]
  
-Requête pour trouver les restaurants qui ont obtenu un score supérieur à 90. 
+- Requête pour trouver les restaurants qui ont obtenu un score supérieur à 90. 
 
  [{
 $match: {
@@ -245,7 +245,7 @@ $gt: 90
 }
 }]
 
-Requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 80 mais inférieur à 100. 
+- Requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 80 mais inférieur à 100. 
 
 [{
     $match: {
@@ -256,7 +256,7 @@ Requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur
     }
 }]
  
-Requête MongoDB pour trouver les restaurants qui se situent dans une latitude inférieure à -95,754168.
+- Requête MongoDB pour trouver les restaurants qui se situent dans une latitude inférieure à -95,754168.
 
  [{
     $match: {
