@@ -169,3 +169,99 @@ Nous vous proposons donc une solution basée sur une base de données Mongo DB p
 De plus nous avons vu que les agrégations Mongo permettent de rechercher tous les statistiques pertinentes pour un marketing efficace.
 
 Ainsi une solution logiciel pertinentes serait de créer une application en 2 parties, une partie pour récupérer les informations (clients grâce à un compte fidélité et restaurants grâce à un outil d'administration de la chaîne d'enseigne) et une seconde partie permettant au service marketing d'obtenir toutes les informations qu'il désire pour mettre en place de campagnes publicitaires. Ce second outil peut également être un plus pour le management afin de voir l'impact de telle ou telle décision sur le profit d'un restaurant. 
+
+## Annexe
+
+### Exemples de requête
+
+Requête pour afficher tous les documents dans les restaurants de la collection
+
+$match: {
+    }
+
+Requête pour afficher les champs restaurant_id, name, borough et cuisine pour tous les documents de la collection restaurant.
+$project: {
+        restaurant_id: 1,
+        name: 1,
+        borough: 1,
+        cuisine: 1,
+    }
+ 
+Requête pour afficher les champs restaurant_id, name, borough et cuisine, mais exclure le champ \_id pour tous les documents de la collection restaurant. 
+
+$project: {
+        	restaurant_id: 1,
+        	name: 1,
+        	borough: 1,
+  	cuisine: 1,
+	\_id :0,
+    }
+ 
+Requête pour afficher les champs restaurant_id, nom, arrondissement et code postal, mais excluez le champ \_id pour tous les documents de la collection restaurant.
+
+ $project: {
+        restaurant_id: 1,
+        name: 1,
+        borough: 1,
+        "address.zipcode": 1,
+        _id: 0,
+    }
+
+Requête pour afficher tous les restaurants qui sont dans l'arrondissement du Bronx. 
+ 
+ $match: {
+        borough: "Bronx",
+    }
+
+Requête pour afficher les 5 premiers restaurants qui se trouvent dans le quartier du Bronx.
+
+[{
+    $match: {
+        borough: "Bronx",
+    }
+}, {
+    $limit: 5
+}]
+ 
+Requête pour afficher les 5 restaurants suivants après avoir sauté les 5 premiers qui sont dans le quartier du Bronx.
+
+[{
+    $skip: 5
+}, {
+    $match: {
+        borough: "Bronx",
+    }
+}, {
+    $limit: 5
+}]
+ 
+Requête pour trouver les restaurants qui ont obtenu un score supérieur à 90. 
+
+ [{
+$match: {
+"grades.0.score": {
+$gt: 90
+}
+}
+}]
+
+Requête MongoDB pour trouver les restaurants qui ont obtenu un score supérieur à 80 mais inférieur à 100. 
+
+[{
+    $match: {
+        "grades.0.score": {
+            $gt: 80,
+            $lt: 100
+        }
+    }
+}]
+ 
+Requête MongoDB pour trouver les restaurants qui se situent dans une latitude inférieure à -95,754168.
+
+ [{
+    $match: {
+        "address.coord.1": {
+            $lt: -95.754168
+        }
+    }
+}]
