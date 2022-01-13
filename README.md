@@ -23,16 +23,18 @@ Une application pertinente des objets Mongo dans notre cas serai de stocker les 
 
 Les notes sont stockées les unes après les autres au sein de l'objet *Grades*. Cela évite la création d'une collection GRADES avec une jointure nécessaire lors de la consultation des notes d'un restaurant.
 
-Mongo DB peut également stocker un grand nombre de données différentes: chaîne de caractères, nombre entier ou décimal, booléen, date et heure et des script JS. src: https://docs.mongodb.com/manual/reference/bson-types/
+Mongo DB peut également stocker un grand nombre de données différentes: chaîne de caractères, nombre entier ou décimal, booléen, date et heure et des script JS. On peut également stocké des coordonnées géographiques grâce au type geoJson afin d'effectuer des requête concernant, par exemple, la proximité des clients avec les restaurants qu'ils fréquentent. 
+src: https://docs.mongodb.com/manual/reference/bson-types/ ; https://docs.mongodb.com/manual/reference/geojson/
 
 Pour les fichiers inférieurs à 16Mo il est possible de les stocker en base 64 mais pour les autres on peut utiliser GridFS.
 GridFS est un processus permettant de stocker les fichiers en les découpant en morceaux (*chunks*) de 4Mo et en les stockant dans une collection GridFS dédiée à cela. src: https://docs.mongodb.com/manual/core/gridfs/
 
 Enfin Mongo DB étant un SGBD populaire il possède une documentation bien fournie et une communauté en ligne active permettant d'obtenir assez rapidement de l'aide sur les éventuels problèmes techniques rencontrés.
 
-avantage des outils mongo db (mongo chart)
+Un avantage indéniable de Mongo DB est la mise à disposition d'outils efficaces pour profiter au mieux des possibilités offertes par Mongo DB.
+Pour la mise en place de la base nous utilisons **Atlas** permettant de facilement créer le cluster et de s'y connecter. Pour consulter et agir sur la base nous utilisons **MongoDB Compass**. Cet un logiciel qui fournit un interface graphique utilisateur simple d'utilisation pour tester des requêtes ou administrer la base de données. De plus on y trouve également une console en ligne de commande **MongoSH** pour agir sur la base. Nous pouvons également cité **Mongo Chart** qui permet de facilement créer des graphiques à partir des données stockées.
 
-alternative à mongo
+Une alternative à Mongo DB aurait été une base de donnée relationnelle basé sur du SQL comme Oracle ou SQL Server de Microsoft. Ces bases de données se base sur des tableaux à 2 dimensions (*tables*) ayant des relations logiques entre eux afin d'organiser les données. Ces bases de données sont privilégiées pour des bases complexes mais nécessite une vision d'ensemble en amont car elles sont assez peu évolutives (*scalable*) puisqu'elle se base sur un schéma fixe. De plus il est plus compliqué d'augmenter le nombre de serveur sur lesquelles est déployée la base. Ainsi nous choisissons une base Mongo DB pour cette application car elle sera amenée à évoluer au fur et à mesure des besoins du marketing et sera potentiellement amenée à être deployé sur de nombreux serveurs.
 
 ## Structure de la base de donnée
 
@@ -79,10 +81,24 @@ Dans notre application nous pourrons mettre dans un premier temps des index sur 
 
 Ces index accélererons le processus pour les statistiques les plus importantes d'un point de vue marketing (tri des clients par sexe et tranche d'age, statistique de consommation de ces groupes, popularité des produits, différence de fréquentation des restaurants).
 
-Cet exemple nous permet également d'aborder la fonction **explain** de Mongo DB. Cette fonction permet de renvoyer des informations concernant le plan d'exécution d'une requête ou sur l'exécution en elle-même de la requête. Cette fonction aide grandement pour optimiser la base. Dans notre cas elle permet de justifier l'utilité des index pour notre base.
+Cet exemple nous permet également d'aborder la fonction *explain()* de Mongo DB. Cette fonction permet de renvoyer des informations concernant le plan d'exécution d'une requête ou sur l'exécution en elle-même de la requête. Cette fonction aide grandement pour optimiser la base. Dans notre cas elle permet de justifier l'utilité des index pour notre base.
 src: https://docs.mongodb.com/manual/reference/operator/meta/explain/
 
-### Fonctions Update et Delete
+### Fonctions Basiques Mongo DB (Find, Insert, Update et Delete)
+
+- Find
+Nous avons déjà montré la fonction *find()* lors de la partie précédente sur les index. Elle permet de récupérer des documents dans une collection selon les filtres mis en paramètres. Dans notre exemple nous recherchions tous les clients masculins (SEXE:"H"), cependant la console n'a pas affiché les documents trouvés puisque nous avons utilisé la fonction *explain()* pour récupérer le temps d'exécution de la requête.
+
+- Insert
+La fonction *insert()* permet de créer un document dans la collection selon les paramètres données.
+
+![requete insert](/Img_README/insert.png)
+
+![resultat insert](/Img_README/result_insert.png)
+
+On observe que le document a bien été créé avec les valeurs données en paramètre pour chaque champs.
+
+Cette fonction est divisée en 2 sous-fonctions *insertOne()* et *insertMany()* permettant d'insérer un ou plusieurs documents dans la collection.
 
 - Update
 La fonction update() permet de modifier une collection.
@@ -98,13 +114,16 @@ On  peut voir que le champ libellé de l'adresse est vide.
 Avec la fonction updateOne() on a mis à jour le champ libellé du document.
 
 On peut passer des options à la fonction si par exemple l'on veut faire de l'upsert (créer le document s'il n'existe pas).
-UpdateOne() met à jour le premier document correspondant aux critères de sélection alors que updateMany() va mettre à jour tous les documents correspondants aux critères.
+A la différence de l'insert, l'upsert va vérifier si un document correspond aux critères de sélection et va le modifier le cas échéant alors que l'insert, n'ayant pas de critères de sélection va créer le document sans se soucier des autres documents présents dans la collection. Cela peut entrainer des doublons dans la base si les requêtes sont mal faites. 
+
+*updateOne()* met à jour le premier document correspondant aux critères de sélection alors que *updateMany()* va mettre à jour tous les documents correspondants aux critères.
 src:https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/ ; https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/
 
--Delete
+- Delete
 La fonction delete() permet de supprimer des documents au sein d'une collection.
 Elle est également divisée en 2 fonctions deleteMany() et deleteOne().
 exemple: 
+
 ![requete delete client](/Img_README/delete_ronnica.png)
 
 On voit que le document précédement modifié a été supprimé de la collection.
@@ -114,10 +133,36 @@ utilité requete géospatiale, discuter structure geoJson, illustré avec exempl
 
 ## Utilisation
 
-agrégations
+### Requête Géospatiale
+
+![requete geospatiale](/Img_README/query_geo.png)
+
+Avec une telle requête nous pouvons recherché les restaurants à proximité de l'adresse d'un client. Cela nécessite bien évidemment de traduire les adresses en coordonnées géographiques.
+Dans cet exemple, grâce à la fonction *$nearSphere*, Mongo DB va nous retourner les restaurants triés selon leur proximité avec la position du client.
+
+Cela peut servir pour envoyer des promotions ciblés géographiquement au client par rapport à son addresse ou alors, dans le cadre d'une application mobile, se servir des données GPS du téléphone du client pour lui indiquer le restaurant le plus proche de sa position actuelle.
+
+### Agrégations
+
+- Divisions des clients par tranche d'âge et de sexe:
+
+![requete age/sexe](/Img_README/query_age_sexe.png)
+
+Cette requête permet de retourner tous les clients masculins agé de 20 à 30 ans inclus. En faisant varier les critères de sélection il est facilement possible de diviser la clientèle en groupe en vue d'un marketing ciblée.
+
+![count age/sexe](/Img_README/count_age_sexe.png)
+
+Cette requête permet de compter le nombre de clients au sein de ce groupe en combinant les fonctions *$match* et *$count*. On appelle cet exécution de tâche à la suite une agrégation. C'est un avantage de Mongo DB car elle peut rendre des requêtes compliquées plus lisibles qu'en SQL.
+
+- Nombre de commandes par client et par restaurant:
+
+![count cmd/client/restau](/Img_README/nbre_commandes_client.png)
+
+Cette requête récupère toutes les commandes liées à un restaurant par rapport à son *ObjectId* dans le *$match*.
+Par la suite elle groupe les commandes restantes par rapport à leur *CLIENT_ID* et renvoie le nombre de commande par *CLIENT_ID*.
+Cette requête permet donc d'identifier les clients les plus fidèles par restaurants.
+
 
 nombre de clients différents par restaurants
 nombre de commandes par restaurant par periode donnée
 produit les plus commandés par périodes
-divisions des clients en tranche d'age et sexe
-liste des restaurants dans un rayon par rapport à un client
